@@ -210,6 +210,12 @@ export default ({ event }) => {
                     open={Boolean(selected)}
                     onClose={resetProjectData}
                 >
+                    <ProjectDetail
+                        project={selected}
+                        event={event}
+                        onBack={resetProjectData}
+                        showTableLocation={false}
+                    />
                     {idToken && EventHelpers.isReviewingOpen(event, moment) ? (
                         <Container>
                             {projectScore?.scoreCriteria && (
@@ -222,12 +228,6 @@ export default ({ event }) => {
                             <Box height={200} />
                         </Container>
                     ) : null}
-                    <ProjectDetail
-                        project={selected}
-                        event={event}
-                        onBack={resetProjectData}
-                        showTableLocation={false}
-                    />
                 </Dialog>
             </>
         )

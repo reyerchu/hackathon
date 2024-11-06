@@ -42,6 +42,7 @@ import {
     LocalAirportRounded,
     LocalPlayRounded,
     QuestionAnswerSharp,
+    Directions,
 } from '@material-ui/icons'
 
 import { Chat } from 'components/messaging/chat'
@@ -77,7 +78,7 @@ export default ({
     const [alertCount, setAlertCount] = useState(originalAlertCount)
     const [alerts, setAlerts] = useState(originalAlerts)
 
-    let isNotMainEvent = event?.slug !== 'junction-2024'
+    let isNotMainEvent = event?.slug !== 'hackery'
 
     useEffect(() => {
         setAlerts(originalAlerts)
@@ -191,7 +192,7 @@ export default ({
                     key: 'side-challenges',
                     path: '/side-challenges',
                     exact: true,
-                    icon: <EmojiEventsRounded />,
+                    icon: <Directions />,
                     hidden: isNotMainEvent,
                     label: 'Side-challenges',
                     component: sideChallengesPage,

@@ -31,6 +31,7 @@ import ChallengesIndex from '../generalPages/challenges'
 import CalendarPage from './calendar'
 import MapPage from '../generalPages/map'
 import ChecklistPage from './checklist'
+import sideChallengesPage from './side-challenges'
 
 import { useTranslation } from 'react-i18next'
 
@@ -75,6 +76,8 @@ export default ({
     const location = useLocation()
     const [alertCount, setAlertCount] = useState(originalAlertCount)
     const [alerts, setAlerts] = useState(originalAlerts)
+
+    let isNotMainEvent = event?.slug !== 'junction-2024'
 
     useEffect(() => {
         setAlerts(originalAlerts)
@@ -185,6 +188,15 @@ export default ({
                     component: ChallengesIndex,
                 },
                 {
+                    key: 'side-challenges',
+                    path: '/side-challenges',
+                    exact: true,
+                    icon: <EmojiEventsRounded />,
+                    hidden: isNotMainEvent,
+                    label: 'Side-challenges',
+                    component: sideChallengesPage,
+                },
+                {
                     key: 'calendar',
                     path: '/calendar',
                     exact: true,
@@ -200,7 +212,7 @@ export default ({
                     path: '/map',
                     exact: false,
                     icon: <PlaceIcon />,
-                    label: 'Map',
+                    label: 'Venue map',
                     component: MapPage,
                 },
                 {

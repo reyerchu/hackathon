@@ -78,7 +78,7 @@ export default ({
     const [alertCount, setAlertCount] = useState(originalAlertCount)
     const [alerts, setAlerts] = useState(originalAlerts)
 
-    let isNotMainEvent = event?.slug !== 'hackery'
+    let isNotMainEvent = event?.slug !== 'junction-2024'
 
     useEffect(() => {
         setAlerts(originalAlerts)

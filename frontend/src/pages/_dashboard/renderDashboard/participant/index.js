@@ -129,6 +129,16 @@ export default ({
                     label: t('Finalist_voting_'),
                     component: FinalistVotingPage,
                 },
+                //TODO make re-enable map for all events
+                {
+                    key: 'map',
+                    hidden: isNotMainEvent,
+                    path: '/map',
+                    exact: false,
+                    icon: <PlaceIcon />,
+                    label: 'Venue map',
+                    component: MapPage,
+                },
                 {
                     key: 'team',
                     path: '/team',
@@ -188,6 +198,7 @@ export default ({
                     label: t('Challenges_'),
                     component: ChallengesIndex,
                 },
+                //TODO make side-challenges into a full feature
                 {
                     key: 'side-challenges',
                     path: '/side-challenges',
@@ -197,6 +208,7 @@ export default ({
                     label: 'Side-challenges',
                     component: sideChallengesPage,
                 },
+                //TODO fix meeting booking system
                 {
                     key: 'calendar',
                     path: '/calendar',
@@ -207,15 +219,6 @@ export default ({
                     component: CalendarPage,
                 },
                 // Experimental
-                {
-                    key: 'map',
-                    hidden: !shownPages.experimental,
-                    path: '/map',
-                    exact: false,
-                    icon: <PlaceIcon />,
-                    label: 'Venue map',
-                    component: MapPage,
-                },
                 {
                     key: 'chat',
                     hidden: !shownPages.experimental,

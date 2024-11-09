@@ -373,7 +373,8 @@ const ProjectDetail = ({
                                                                         <Typography variant="subtitle1">
                                                                             {answer.fieldType ===
                                                                             'boolean'
-                                                                                ? answer.value
+                                                                                ? answer.value ===
+                                                                                  'true'
                                                                                     ? 'Yes'
                                                                                     : 'No'
                                                                                 : answer.value}

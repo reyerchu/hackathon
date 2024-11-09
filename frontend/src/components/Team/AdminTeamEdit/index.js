@@ -44,15 +44,6 @@ export default ({
         userProfile: {},
     }
 
-    // TODO add way to remove team members
-    // const onClickRemove = (userId) => {
-    //     console.log("delete", slug, teamData.code, userId)
-    // }
-
-    // const onClickDelete = () => {
-    //     console.log("delete")
-    // }
-
     const handleRemove = useEffect(() => {
         console.log('delete', slug, teamData?.code, teamMemberToRemove)
         setLoading(true)

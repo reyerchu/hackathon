@@ -1,136 +1,168 @@
-const { ManagementClient } = require('auth0')
-const Shared = require('@hackjunction/shared')
+const Shared = require('@hackjunction/shared');
+const AuthConstants = Shared.Auth;
+const wpAuth = require('./wordpress');
 
-const AuthConstants = Shared.Auth
-const axios = require('axios')
-const _ = require('lodash')
-const request = require('request')
+const controller = {};
 
-/* Auth0 management api config */
-const auth0 = new ManagementClient({
-    domain: global.gConfig.AUTH0_DOMAIN,
-    clientId: global.gConfig.AUTH0_CLIENT_ID,
-    clientSecret: global.gConfig.AUTH0_CLIENT_SECRET,
-    scope: 'read:users update:users read:roles',
-})
+controller.authenticate = async (username, password) => {
+    try {
+        const user = await wpAuth.verifyCredentials(username, password);
+        if (!user) {
+            throw new Error('Invalid credentials');
+        }
 
-const controller = {}
+        // Get user metadata
+        const metadata = await wpAuth.getUserMeta(user.id);
 
-function getAuthorizationToken() {
-    const options = {
-        method: 'POST',
-        url: `https://${global.gConfig.AUTH0_DOMAIN}/oauth/token`,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        form: {
-            grant_type: 'client_credentials',
-            client_id: global.gConfig.AUTH0_CLIENT_ID,
-            client_secret: global.gConfig.AUTH0_CLIENT_SECRET,
-            audience: 'urn:auth0-authz-api',
-        },
-    }
-
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            if (error) {
-                reject(error)
-            } else {
-                resolve(JSON.parse(body))
+        // Map WordPress roles to Junction roles
+        const junctionRoles = [];
+        if (metadata.wp_capabilities) {
+            const wpRoles = JSON.parse(metadata.wp_capabilities);
+            if (wpRoles.administrator) {
+                junctionRoles.push(AuthConstants.Roles.SUPER_ADMIN);
             }
-        })
-    })
-}
+            if (wpRoles.editor) {
+                junctionRoles.push(AuthConstants.Roles.ORGANISER);
+            }
+            if (wpRoles.author) {
+                junctionRoles.push(AuthConstants.Roles.ASSISTANT_ORGANISER);
+            }
+            if (wpRoles.contributor) {
+                junctionRoles.push(AuthConstants.Roles.RECRUITER);
+            }
+        }
 
-function config(access_token) {
-    return {
-        headers: {
-            Authorization: `Bearer ${access_token}`,
-        },
+        // Generate JWT token
+        const token = wpAuth.generateToken({
+            ...user,
+            roles: junctionRoles
+        });
+
+        return {
+            token,
+            user: {
+                ...user,
+                roles: junctionRoles
+            }
+        };
+    } catch (error) {
+        console.error('Authentication error:', error);
+        throw error;
     }
-}
+};
 
-function getRoles(access_token) {
-    return axios
-        .get(
-            `${global.gConfig.AUTH0_AUTHORIZATION_EXTENSION_URL}/roles`,
-            config(access_token),
-        )
-        .then(res => res.data.roles)
-}
-
-function getRoleByName(access_token, role) {
-    return getRoles(access_token).then(roles => {
-        return _.find(roles, r => r.name === role)
-    })
-}
-
-function assignRole(access_token, userId, roleId) {
-    return axios
-        .patch(
-            `${global.gConfig.AUTH0_AUTHORIZATION_EXTENSION_URL}/users/${userId}/roles`,
-            [roleId],
-            config(access_token),
-        )
-        .then(res => res.data)
-}
-
-function removeRole(access_token, userId, roleId) {
-    return axios
-        .delete(
-            `${global.gConfig.AUTH0_AUTHORIZATION_EXTENSION_URL}/users/${userId}/roles`,
-            {
-                ...config(access_token),
-                data: [roleId],
-            },
-        )
-        .then(res => res.data)
-}
+controller.verifyToken = async (token) => {
+    try {
+        const decoded = wpAuth.verifyToken(token);
+        if (!decoded) {
+            throw new Error('Invalid token');
+        }
+        return decoded;
+    } catch (error) {
+        console.error('Token verification error:', error);
+        throw error;
+    }
+};
 
 controller.grantAssistantOrganiser = async userId => {
-    const { access_token } = await getAuthorizationToken()
-    const role = await getRoleByName(
-        access_token,
-        AuthConstants.Roles.ASSISTANT_ORGANISER,
-    )
-    return assignRole(access_token, userId, role._id)
-}
+    try {
+        const metadata = await wpAuth.getUserMeta(userId);
+        const capabilities = JSON.parse(metadata.wp_capabilities || '{}');
+        capabilities.author = true;
+        
+        await pool.execute(
+            'UPDATE wp_usermeta SET meta_value = ? WHERE user_id = ? AND meta_key = ?',
+            [JSON.stringify(capabilities), userId, 'wp_capabilities']
+        );
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Error granting assistant organiser role:', error);
+        throw error;
+    }
+};
 
 controller.revokeAssistantOrganiser = async userId => {
-    const { access_token } = await getAuthorizationToken()
-    const role = await getRoleByName(
-        access_token,
-        AuthConstants.Roles.ASSISTANT_ORGANISER,
-    )
-    return removeRole(access_token, userId, role._id)
-}
+    try {
+        const metadata = await wpAuth.getUserMeta(userId);
+        const capabilities = JSON.parse(metadata.wp_capabilities || '{}');
+        delete capabilities.author;
+        
+        await pool.execute(
+            'UPDATE wp_usermeta SET meta_value = ? WHERE user_id = ? AND meta_key = ?',
+            [JSON.stringify(capabilities), userId, 'wp_capabilities']
+        );
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Error revoking assistant organiser role:', error);
+        throw error;
+    }
+};
 
 controller.grantRecruiterPermission = async userId => {
-    const { access_token } = await getAuthorizationToken()
-    const role = await getRoleByName(
-        access_token,
-        AuthConstants.Roles.RECRUITER,
-    )
-    return assignRole(access_token, userId, role._id)
-}
+    try {
+        const metadata = await wpAuth.getUserMeta(userId);
+        const capabilities = JSON.parse(metadata.wp_capabilities || '{}');
+        capabilities.contributor = true;
+        
+        await pool.execute(
+            'UPDATE wp_usermeta SET meta_value = ? WHERE user_id = ? AND meta_key = ?',
+            [JSON.stringify(capabilities), userId, 'wp_capabilities']
+        );
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Error granting recruiter role:', error);
+        throw error;
+    }
+};
 
 controller.revokeRecruiterPermission = async userId => {
-    const { access_token } = await getAuthorizationToken()
-    const role = await getRoleByName(
-        access_token,
-        AuthConstants.Roles.RECRUITER,
-    )
-    return removeRole(access_token, userId, role._id)
-}
+    try {
+        const metadata = await wpAuth.getUserMeta(userId);
+        const capabilities = JSON.parse(metadata.wp_capabilities || '{}');
+        delete capabilities.contributor;
+        
+        await pool.execute(
+            'UPDATE wp_usermeta SET meta_value = ? WHERE user_id = ? AND meta_key = ?',
+            [JSON.stringify(capabilities), userId, 'wp_capabilities']
+        );
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Error revoking recruiter role:', error);
+        throw error;
+    }
+};
 
 controller.updateMetadata = async (userId, updates) => {
-    const user = await auth0.getUser({ id: userId })
-    const metadata = { ...user.user_metadata, ...updates }
-    const updatedUser = await auth0.updateUserMetadata({ id: userId }, metadata)
-    return updatedUser
-}
+    try {
+        const entries = Object.entries(updates);
+        for (const [key, value] of entries) {
+            await pool.execute(
+                'INSERT INTO wp_usermeta (user_id, meta_key, meta_value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE meta_value = ?',
+                [userId, key, value, value]
+            );
+        }
+        return { success: true };
+    } catch (error) {
+        console.error('Error updating user metadata:', error);
+        throw error;
+    }
+};
 
 controller.deleteUser = async userId => {
-    const deletedUser = await auth0.deleteUser({ id: userId })
-    return deletedUser
-}
+    try {
+        // Delete user metadata
+        await pool.execute('DELETE FROM wp_usermeta WHERE user_id = ?', [userId]);
+        // Delete user
+        await pool.execute('DELETE FROM wp_users WHERE ID = ?', [userId]);
+        return { success: true };
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        throw error;
+    }
+};
 
-module.exports = controller
+module.exports = controller;

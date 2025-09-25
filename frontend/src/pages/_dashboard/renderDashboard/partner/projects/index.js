@@ -144,7 +144,7 @@ export default ({ event }) => {
         return function cleanup() {
             mounted = false
         }
-    }, [event, idToken, selected])
+    }, [dispatch, event, fetchProjectScore, idToken, selected, slug, t])
 
     const fetchProjectScore = async (idToken, slug, projectId) => {
         ProjectScoresService.getScoreByEventSlugAndProjectIdAndPartnerAccount(

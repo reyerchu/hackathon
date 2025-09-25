@@ -31,7 +31,7 @@ export default () => {
             dispatch(OrganiserActions.updateRegistrationsForEvent(event.slug))
             dispatch(OrganiserActions.updateTeamsForEvent(event.slug))
         }
-    }, [event, location])
+    }, [dispatch, event, location])
 
     const projectsLoading = useSelector(OrganiserSelectors.projectsLoading)
 

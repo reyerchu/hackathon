@@ -45,7 +45,7 @@ function CandidateCard({ candidateData = {}, onViewApplication = () => {} }) {
             .finally(() => {
                 setLoading(false)
             })
-    }, [candidateData])
+    }, [candidateData, candidateProfile.profile, dispatch])
 
     const event = useSelector(DashboardSelectors.event)
     const team = useSelector(DashboardSelectors.team)
@@ -73,7 +73,7 @@ function CandidateCard({ candidateData = {}, onViewApplication = () => {} }) {
                 ),
             )
         },
-        [dispatch, candidateProfile],
+        [dispatch, slug, code, candidateProfile.profile.userId],
     )
 
     const handleDecline = () => {

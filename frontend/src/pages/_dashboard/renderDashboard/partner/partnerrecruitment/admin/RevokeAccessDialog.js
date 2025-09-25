@@ -29,20 +29,23 @@ export default ({ userId, onClose }) => {
     const handleRevokeAccess = useCallback(async () => {
         setLoading(true)
         try {
-            const eventNames = events.filter(event => event.recruiters.some(r => r.recruiterId === userId)
-            )?.map(event => event.slug)
-            Promise.all(eventNames?.map(event => {
-                return dispatch(
-                    OrganiserActions.removeRecruiterFromEvent(
-                        event, //slug
-                        userId,
-                    ),
+            const eventNames = events
+                .filter(event =>
+                    event.recruiters.some(r => r.recruiterId === userId),
                 )
-            }))
-
-            dispatch(
-                RecruitmentActions.adminRevokeRecruiterAccess(userId),
+                ?.map(event => event.slug)
+            Promise.all(
+                eventNames?.map(event => {
+                    return dispatch(
+                        OrganiserActions.removeRecruiterFromEvent(
+                            event, //slug
+                            userId,
+                        ),
+                    )
+                }),
             )
+
+            dispatch(RecruitmentActions.adminRevokeRecruiterAccess(userId))
             dispatch(SnackbarActions.success('Success!'))
             onClose()
         } catch (e) {
@@ -50,7 +53,7 @@ export default ({ userId, onClose }) => {
         } finally {
             setLoading(false)
         }
-    }, [dispatch, userId, onClose])
+    }, [events, dispatch, userId, onClose])
 
     return (
         <Dialog

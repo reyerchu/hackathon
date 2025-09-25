@@ -12,7 +12,7 @@ import * as DashboardSelectors from 'redux/dashboard/selectors'
 
 const useStyles = makeStyles(theme => ({
     root: {
-        background: 'white'
+        background: 'white',
     },
     qrCodeWrapper: {
         display: 'flex',
@@ -36,28 +36,22 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const makeBoxStyles = () => ({
-
     backgroundColor: '#f7fafc',
     border: `2px solid #e2e8f0`,
     borderRadius: '6px',
-    height: '100%'
-
+    height: '100%',
 })
 
 export default () => {
     const classes = useStyles()
     const userProfile = useSelector(UserSelectors.userProfile)
     const event = useSelector(DashboardSelectors.event)
-    console.log("EVENT-ID PAGE")
+    console.log('EVENT-ID PAGE')
 
     return (
         <div className={classes.root}>
             <Box lassName={classes.root}>
-                <GradientBox
-                    style={makeBoxStyles()}
-                    color="theme_white"
-                    p={3}
-                >
+                <GradientBox style={makeBoxStyles()} color="theme_white" p={3}>
                     <PageHeader
                         heading="Your event ID"
                         subheading={`Show this QR code at the entrance to gain access to ${event.name}`}

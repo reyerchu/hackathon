@@ -320,6 +320,7 @@ export default RequiresPermission(() => {
         event.customQuestions,
         finishRegistration,
         formData,
+        globalNavbarElement.style.display,
         hasRegistration,
         sections.length,
         slug,

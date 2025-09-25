@@ -34,7 +34,7 @@ export default ({ viewMode = 'card', userData = {}, enabledView = false }) => {
                     setLoading(false)
                 })
         }
-    }, [userData, visible])
+    }, [dispatch, userData, userProfile, visible])
 
     const styling = {
         borderStyle: '',

@@ -41,7 +41,7 @@ export default () => {
             setError(true)
             setLoading(false)
         }
-    }, [idToken, id])
+    }, [idToken, id, eventId])
 
     return (
         <Dialog fullScreen open={true} transitionDuration={0}>

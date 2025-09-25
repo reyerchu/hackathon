@@ -27,7 +27,7 @@ export default () => {
             )
             dispatch(OrganiserActions.updateTeamsForEvent(event.slug))
         }
-    }, [event, location])
+    }, [dispatch, event, location])
     return (
         <PageWrapper>
             <PageHeader

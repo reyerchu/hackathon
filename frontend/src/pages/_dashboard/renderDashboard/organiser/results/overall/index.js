@@ -83,7 +83,7 @@ export default () => {
                 bottom: projectNameMap,
             }
         })
-    }, [])
+    }, [projectNameMap, rankingsOverall.rankings])
 
     console.log('dragDropState :>> ', dragDropState)
 

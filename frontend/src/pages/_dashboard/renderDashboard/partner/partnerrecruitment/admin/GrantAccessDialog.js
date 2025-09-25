@@ -44,16 +44,17 @@ export default ({ userId, onClose }) => {
     const handleGrantAccess = useCallback(async () => {
         setLoading(true)
         try {
-            Promise.all(selectedEvents?.map(event => {
-                return dispatch(
-                    OrganiserActions.addRecruiterToEvent(
-                        event.slug,
-                        userId,
-                        organisation.trim(),
-                    ),
-                )
-            }))
-
+            Promise.all(
+                selectedEvents?.map(event => {
+                    return dispatch(
+                        OrganiserActions.addRecruiterToEvent(
+                            event.slug,
+                            userId,
+                            organisation.trim(),
+                        ),
+                    )
+                }),
+            )
 
             await dispatch(
                 RecruitmentActions.adminGrantRecruiterAccess(
@@ -70,7 +71,6 @@ export default ({ userId, onClose }) => {
             setLoading(false)
         }
     }, [dispatch, userId, selectedEvents, organisation, onClose])
-
 
     return (
         <Dialog
@@ -91,7 +91,6 @@ export default ({ userId, onClose }) => {
                     options={events.map(event => ({
                         value: event,
                         label: event.name,
-
                     }))}
                 />
                 <Box mt={3} />

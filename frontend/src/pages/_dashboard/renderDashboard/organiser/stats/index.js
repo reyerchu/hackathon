@@ -7,7 +7,6 @@ import PageHeader from 'components/generic/PageHeader'
 import * as OrganiseSelectors from 'redux/organiser/selectors'
 var jwt = require('jsonwebtoken')
 
-
 var METABASE_SITE_URL = config.METABASE_SITE_URL
 var METABASE_SECRET_KEY = config.METABASE_SECRET_KEY
 

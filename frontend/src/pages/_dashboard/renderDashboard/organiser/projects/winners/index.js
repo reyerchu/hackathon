@@ -48,13 +48,13 @@ export default () => {
         } finally {
             setLoading(false)
         }
-    }, [event])
+    }, [dispatch, event.slug, idToken])
 
     useEffect(() => {
         if (event?.slug) {
             update()
         }
-    }, [event])
+    }, [event, update])
 
     const getScoreText = project => {
         const scoreFromUsers = project?.votingData?.userVotes ?? 0

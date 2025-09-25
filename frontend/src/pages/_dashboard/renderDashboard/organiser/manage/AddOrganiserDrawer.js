@@ -14,10 +14,7 @@ import {
     Avatar,
 } from '@material-ui/core'
 
-import {
-    Add,
-    PersonAdd
-} from '@material-ui/icons'
+import { Add, PersonAdd } from '@material-ui/icons'
 
 import * as AuthSelectors from 'redux/auth/selectors'
 import * as SnackbarActions from 'redux/snackbar/actions'

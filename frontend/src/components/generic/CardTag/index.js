@@ -56,7 +56,6 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-
 export default function CardTag({
     label,
     color = 'primary',
@@ -65,11 +64,5 @@ export default function CardTag({
     ...props
 }) {
     const classes = useStyles({ color, strong, variant: props.variant })
-    return (
-        <Chip
-            {...props}
-            classes={classes}
-            label={label}
-        />
-    )
+    return <Chip {...props} classes={classes} label={label} />
 }

@@ -191,7 +191,7 @@ const variantStyles = (theme, props) => {
         }
         case 'roundedBlack': {
             return {
-                backgroundColor: "black",
+                backgroundColor: 'black',
                 color: color.main,
                 border: `2px solid ${color.main}`,
                 borderRadius: '50%',

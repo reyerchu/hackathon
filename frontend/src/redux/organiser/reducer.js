@@ -261,7 +261,7 @@ export default function reducer(state = initialState, action) {
         }
         case ActionTypes.ADD_EVENT_RECRUITER: {
             //const data = state.event.data.recruiters.concat(action.payload)
-            console.log("ADD_EVENT_RECRUITER", action.payload)
+            console.log('ADD_EVENT_RECRUITER', action.payload)
             return editEventRecruitres(state, action.payload)
         }
         /**TODO: Add attendee update actions */

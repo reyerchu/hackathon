@@ -45,7 +45,7 @@ export default ({ sections = [], onChange, projectsExist = false }) => {
             newValue.splice(index, 1)
             onChange(newValue)
         },
-        [onChange, sections, projectsExist],
+        [projectsExist, sections, onChange, t],
     )
 
     const handleMoveUp = useCallback(

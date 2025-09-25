@@ -36,7 +36,7 @@ export default ({
 
     useEffect(() => {
         onChange(filter)
-    }, [filter])
+    }, [filter, onChange])
 
     return (
         <div className="tw-justify-end tw-flex tw-items-center tw-gap-2">

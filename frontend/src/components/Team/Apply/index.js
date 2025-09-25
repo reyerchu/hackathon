@@ -110,7 +110,14 @@ export default ({
                     formikBag.setSubmitting(false)
                 })
         },
-        [dispatch, userProfile],
+        [
+            afterSubmitAction,
+            dispatch,
+            event.slug,
+            selectedTeam._id,
+            teamRolesData,
+            userProfile.userId,
+        ],
     )
 
     return (

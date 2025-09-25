@@ -17,7 +17,12 @@ export default () => {
     const challengeList = []
     const teamsLoading = useSelector(OrganiserSelectors.teamsLoading)
     if (event?.challenges && event?.challenges.length > 0) {
-        challengeList.push(...event?.challenges.map(challenge => ({ ...challenge, teamCount: 0 })))
+        challengeList.push(
+            ...event?.challenges.map(challenge => ({
+                ...challenge,
+                teamCount: 0,
+            })),
+        )
         if (teams.length > 0) {
             teams.map(team => {
                 challengeList.find(challenge => {

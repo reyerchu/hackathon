@@ -58,7 +58,7 @@ export default () => {
         if (!(idTokenData.recruiter_events?.length > 0)) {
             throw new Error(t('Invalid_access_'))
         }
-    }, [idTokenData])
+    }, [idTokenData, t])
     // TODO make organization and eventId fetch on one element as now it is repeated here, in the ResultCard and in the RecruitmentFavorites
     useEffect(() => {
         dispatch(RecruitmentActions.updateEvents())
@@ -68,7 +68,7 @@ export default () => {
         }).organisation
 
         dispatch(RecruitmentActions.updateActionHistory(organisation))
-    }, [recEvents])
+    }, [dispatch, eventId, recEvents])
 
     //Handling download of all profiles TODO improve this function and implement snackbar notifications
     const handleDownload = async () => {

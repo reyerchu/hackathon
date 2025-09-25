@@ -28,7 +28,7 @@ export default () => {
     const { slug } = event
     useEffect(() => {
         dispatch(DashboardActions.updateTeam(slug))
-    }, [])
+    }, [dispatch, slug])
     const hasTeam = useSelector(DashboardSelectors.hasTeam)
     const team = useSelector(DashboardSelectors.team)
     const [selected, setSelected] = useState(false)
@@ -64,7 +64,7 @@ export default () => {
                     setLoadingCandidate(false)
                 })
         }
-    }, [candidateId])
+    }, [candidateId, dispatch, team.candidates])
 
     const onBack = () => {
         setSelected(false)
@@ -122,7 +122,7 @@ export default () => {
                     formikBag.setSubmitting(false)
                 })
         },
-        [dispatch, candidateSelectedData],
+        [dispatch, slug, team.code, candidateSelectedData.userId],
     )
 
     const handleDecline = () => {

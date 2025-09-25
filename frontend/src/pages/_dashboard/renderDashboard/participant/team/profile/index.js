@@ -15,7 +15,7 @@ export default () => {
     const { slug, challengesEnabled, challenges } = event
     useEffect(() => {
         dispatch(DashboardActions.updateTeam(slug))
-    }, [])
+    }, [dispatch, slug])
     const [status, setStatus] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -31,7 +31,7 @@ export default () => {
             }))
         }
         return null
-    }, [event])
+    }, [challenges, challengesEnabled])
 
     const handleLeave = useCallback(() => {
         setLoading(true)
@@ -50,7 +50,7 @@ export default () => {
                 setStatus('')
                 setLoading(false)
             })
-    }, [slug, team?.code, dispatch])
+    }, [dispatch, slug, team.code])
 
     const handleDelete = useCallback(() => {
         setLoading(true)
@@ -69,7 +69,7 @@ export default () => {
                 setStatus('')
                 setLoading(false)
             })
-    }, [dispatch, slug, team?.code])
+    }, [dispatch, slug, team.code])
 
     const handleCreate = useCallback(
         (values, formikBag) => {

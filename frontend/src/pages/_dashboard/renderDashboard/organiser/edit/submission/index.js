@@ -22,7 +22,7 @@ export default () => {
         if (projects && projects.length > 0 && !projectsExist) {
             setProjectsExist(true)
         }
-    }, [projects])
+    }, [projects, projectsExist])
 
     let renderDefaultFields = []
 

@@ -28,7 +28,7 @@ export default () => {
                 setError(t('Name_must_five_'))
             } else if (name.length >= 50) {
                 setError(t('Name_must_under_'))
-            } else if (name === "default") {
+            } else if (name === 'default') {
                 setError(t('Name_not_default_'))
             } else {
                 setError()
@@ -43,12 +43,12 @@ export default () => {
         } else if (name.length >= 50) {
             setError(t('Name_must_under_'))
             return false
-        } else if (name === "default") {
+        } else if (name === 'default') {
             setError(t('Name_not_default_'))
             return false
         }
         return true
-    }, [name.length, t])
+    }, [name, t])
 
     const handleCreate = useCallback(() => {
         if (!checkName()) return

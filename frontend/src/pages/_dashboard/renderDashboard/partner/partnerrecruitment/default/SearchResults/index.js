@@ -34,7 +34,7 @@ export default ({ items, organisation, eventId }) => {
     useEffect(() => {
         //dispatch(DashboardActions.updateEvent(slug))
         dispatch(RecruitmentActions.updateSearchResults())
-    }, [pageSize, page, filters])
+    }, [pageSize, page, filters, dispatch])
 
     const renderLoading = () => {
         if (!loading) return null

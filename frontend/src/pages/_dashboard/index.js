@@ -61,7 +61,7 @@ export default () => {
         } else if (isOrganizer) {
             dispatch(UserActions.setAccessRight('organizer'))
         }
-    }, [])
+    }, [dispatch, isOrganizer, isPartner])
 
     useEffect(() => {
         if (!loading) {
@@ -73,7 +73,15 @@ export default () => {
         if (!loadingPast) {
             dispatch(DashboardActions.pastEvents(pastEvents))
         }
-    }, [organizerEvents, activeEvents, pastEvents])
+    }, [
+        organizerEvents,
+        activeEvents,
+        pastEvents,
+        loading,
+        loadingActive,
+        loadingPast,
+        dispatch,
+    ])
 
     //redirect to right event page, default, or out
     return (

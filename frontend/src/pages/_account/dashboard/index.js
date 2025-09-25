@@ -39,7 +39,9 @@ export default () => {
                             <EventCardSmall
                                 event={registration.event}
                                 handleClick={event =>
-                                    dispatch(push(`/dashboard/event/${event?.slug}`))
+                                    dispatch(
+                                        push(`/dashboard/event/${event?.slug}`),
+                                    )
                                 }
                             />
                         </Grid>

@@ -44,12 +44,11 @@ export default ({ name, logo, partner, description, link, redeemable }) => {
                             />
                         ) : (
                             <img
-                                alt='default logo'
+                                alt="default logo"
                                 src={defaultLogo}
                                 className={classes.companyLogo}
                             />
-                        )
-                        }
+                        )}
                     </Box>
                 </Grid>
                 <Grid item xs={8}>
@@ -79,5 +78,3 @@ export default ({ name, logo, partner, description, link, redeemable }) => {
         </Box>
     )
 }
-
-

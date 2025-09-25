@@ -137,7 +137,7 @@ export default () => {
 
     useEffect(() => {
         checkName()
-    }, [name])
+    }, [checkName, name])
 
     const checkName = useCallback(() => {
         if (name.length < 5) {
@@ -152,7 +152,7 @@ export default () => {
         }
         setError('')
         return true
-    }, [name.length])
+    }, [name])
 
     const handleCreate = useCallback(() => {
         setLoading(true)
@@ -172,7 +172,7 @@ export default () => {
             dispatch(SnackbarActions.error(error))
         }
         setLoading(false)
-    }, [checkName, idToken, name, dispatch])
+    }, [checkName, idToken, name, dispatch, t, error])
 
     //TODO: make same size, add border color = primary
     return (

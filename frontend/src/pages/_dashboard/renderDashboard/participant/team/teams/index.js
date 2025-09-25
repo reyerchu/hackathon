@@ -64,7 +64,7 @@ export default () => {
                 challengeFilter,
             ),
         )
-    }, [currentPage, joinByCode, challengeFilter])
+    }, [currentPage, joinByCode, challengeFilter, dispatch, slug])
 
     let teamCards = []
     if (challengeFilter !== 'All challenges') {

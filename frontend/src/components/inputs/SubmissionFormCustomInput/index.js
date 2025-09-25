@@ -10,9 +10,9 @@ export default ({ section, sectionAnswers = undefined }) => {
     useEffect(() => {
         setVisible(
             !section.conditional ||
-            (!!sectionAnswers && !!sectionAnswers.value),
+                (!!sectionAnswers && !!sectionAnswers.value),
         )
-    }, [sectionAnswers])
+    }, [section.conditional, sectionAnswers])
 
     const formikCont = useFormikContext()
 
@@ -22,7 +22,7 @@ export default ({ section, sectionAnswers = undefined }) => {
                 formikCont.setFieldValue(question.name, '')
             })
         }
-    }, [visible])
+    }, [formikCont, section.questions, visible])
 
     return (
         <>

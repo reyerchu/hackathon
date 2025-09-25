@@ -291,7 +291,7 @@ export default ({
                 questions: newItems,
             })
         },
-        [onChange, questions, section],
+        [onChange, projectsExist, questions, section, t],
     )
 
     return (

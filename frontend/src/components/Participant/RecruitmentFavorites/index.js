@@ -113,7 +113,7 @@ export default ({ user = {} }) => {
             dispatch(SnackbarActions.error('Something went wrong...'))
             setIsFavorite(_isFavorite)
         }
-    }, [_isFavorite, dispatch, user.userId])
+    }, [_isFavorite, dispatch, eventId, recEvents, user.userId])
     return (
         <div className="tw-flex tw-justify-between tw-items-center">
             <MuiButton onClick={() => dispatch(goBack())}>

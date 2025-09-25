@@ -61,7 +61,8 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const EventCard = ({ event, buttons }) => {//TODO: use neweventcard everywhere
+const EventCard = ({ event, buttons }) => {
+    //TODO: use neweventcard everywhere
     const dispatch = useDispatch()
     const classes = useStyles()
     const organization = event?.organizations

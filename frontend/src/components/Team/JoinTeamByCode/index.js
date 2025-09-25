@@ -66,7 +66,7 @@ export default ({ onAction = () => {} }) => {
             .finally(() => {
                 setLoading(false)
             })
-    }, [code, dispatch, event.slug])
+    }, [code, dispatch, event.slug, onAction])
 
     return (
         <div className=" tw-flex tw-gap-8 tw-pr-4 tw-items-center">

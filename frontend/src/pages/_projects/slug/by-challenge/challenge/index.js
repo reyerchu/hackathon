@@ -33,11 +33,10 @@ export default ({ event, projects }) => {
         const data = projects.filter(project => {
             return project.challenges.indexOf(challenge.slug) !== -1
         })
-        const sorted = data.sort(function(a,b){
+        const sorted = data.sort(function (a, b) {
             return new Date(b.updatedAt) - new Date(a.updatedAt)
-        }
-        )
-        return(sorted)
+        })
+        return sorted
         // return sortBy(data, item => {
         //     return -1 * item?.description.length
         // })

@@ -124,7 +124,7 @@ export default () => {
                     setLoading(false)
                 })
         },
-        [dispatch, slug],
+        [dispatch, event._id, slug],
     )
 
     const handleOrganiserAdded = useCallback(

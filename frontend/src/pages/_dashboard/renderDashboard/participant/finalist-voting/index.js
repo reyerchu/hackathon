@@ -57,7 +57,7 @@ export default () => {
         } finally {
             setLoading(false)
         }
-    }, [])
+    }, [getFinalists, update])
 
     const update = async () => {
         try {

@@ -132,7 +132,7 @@ export default React.memo(
                     }
                 })
             },
-            [_isFavorite, data.userId, dispatch],
+            [_isFavorite, data.userId, dispatch, eventId, recEvents],
         )
 
         return (

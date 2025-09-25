@@ -41,7 +41,7 @@ export default role => {
         dispatch(DashboardActions.updateRegistration(slug))
         dispatch(DashboardActions.updateTeam(slug))
         dispatch(DashboardActions.updateProjects(slug))
-    }, [slug])
+    }, [dispatch, slug])
 
     // Must use lazy query because event is fetched asynchnronously
     const [getAlerts, { loading: alertsLoading, data: alertsData }] =
@@ -54,7 +54,7 @@ export default role => {
                 DashboardActions.updateRecruitersForEvent(event.recruiters),
             )
         }
-    }, [event, getAlerts])
+    }, [dispatch, event, getAlerts])
 
     // Set alerts when data is fetched or recieved through websocket
     useEffect(() => {
@@ -85,7 +85,7 @@ export default role => {
                 return newArray
             })
         }
-    }, [alertsData, setAlerts, newAlert, setAlertCount])
+    }, [alertsData, setAlerts, newAlert, setAlertCount, alertCount])
 
     //TODO: reconstruct to contain partner, organizer & participnat pages
     switch (userAccessRight) {

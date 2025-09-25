@@ -55,9 +55,7 @@ export default () => {
             </IconButton>
             <Box padding={1}>
                 {totalResults === 0 && loading ? (
-                    <Typography variant="overline">
-                        Page 1
-                    </Typography>
+                    <Typography variant="overline">Page 1</Typography>
                 ) : (
                     <Typography variant="overline">
                         Page {_currentPage + 1} of {totalPages}

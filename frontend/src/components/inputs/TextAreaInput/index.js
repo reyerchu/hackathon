@@ -52,7 +52,7 @@ const TextAreaInput = React.memo(
                 }
                 onChange(e.target.value)
             },
-            [onChange],
+            [maxLength, onChange],
         )
 
         let textFieldFormat

@@ -97,7 +97,7 @@ const ProjectsGrid = ({
         } else {
             setSorted(returnProjects)
         }
-    }, [event.slug, projects, token])
+    }, [projectScoreLogic, projects, reviewerGrid, showScore, userId])
 
     useEffect(() => {
         if (showScore || showReviewers) {
@@ -105,7 +105,7 @@ const ProjectsGrid = ({
         } else {
             setSorted(projects)
         }
-    }, [fetchData, projects, showScore])
+    }, [fetchData, projects, showReviewers, showScore])
 
     const allFilterLabel = 'All projects'
     const [filter, setFilter] = useState(allFilterLabel)
@@ -133,7 +133,7 @@ const ProjectsGrid = ({
                     return projects
             }
         },
-        [sorted],
+        [userId],
     )
 
     return (
